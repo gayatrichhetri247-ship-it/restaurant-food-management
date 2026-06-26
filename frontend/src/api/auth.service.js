@@ -47,3 +47,8 @@ export const getUser = async () => {
     throw error;
   }
 };
+export const getUsers = async () => {
+  const res = await api.get("http://localhost:9000/api/users");
+
+  return res.data;
+};

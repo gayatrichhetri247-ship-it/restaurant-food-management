@@ -25,3 +25,14 @@ export const varifyToken= async(req,res,next)=>{
     }
 
 };
+export const isAdmin = (req,res,next)=>{
+   const user = req.user;
+
+   if(user.role!=="admin"){
+    return res.status(403).json({
+        message:"Admin only",
+        success:false
+    });
+   }
+   next();
+}

@@ -11,8 +11,7 @@ app.use(cookieParser());
 app.use(cors({
     origin:"http://localhost:5173",
     credentials:true,
-})
-),
+}));
 app.use("/api/users", userRoutes)
 app.use("/api/foods", foodRoutes)
 app.use("/api/orders", orderRoutes)
