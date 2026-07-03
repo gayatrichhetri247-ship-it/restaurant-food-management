@@ -2,14 +2,32 @@ import foodModel from "../src/models/food.model.js";
 import uploadOnCloudinary from "../src/utils/cloudinary.js";
 import { success } from "./order.controller.js";
 
+import fs from "fs";
+
 export const createfood = async (req, res) => {
   try {
     const { name, description, price } = req.body;
 
-    let url = null;
+    console.log("req.file:", req.file);
+
     if (req.file) {
-      const res = await uploadOnCloudinary(req.file.path);
-      url = res.secure_url;
+      console.log("File exists:", fs.existsSync(req.file.path));
+      console.log("File path:", req.file.path);
+    }
+
+    let url = null;
+
+    if (req.file) {
+      const result = await uploadOnCloudinary(req.file.path);
+
+      if (!result) {
+        return res.status(500).json({
+          success: false,
+          message: "Cloudinary upload failed",
+        });
+      }
+
+      url = result.secure_url;
     }
 
     const food = await foodModel.create({
@@ -18,15 +36,18 @@ export const createfood = async (req, res) => {
       price,
       photo: url,
     });
+
     res.status(201).json({
-      message: "food created",
       success: true,
+      message: "Food created",
       food,
     });
   } catch (error) {
+    console.error(error);
+
     res.status(500).json({
-      message: "internal server error",
       success: false,
+      message: error.message,
     });
   }
 };
