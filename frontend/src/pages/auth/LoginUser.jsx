@@ -27,6 +27,7 @@ const LoginUser = () => {
 
   try {
     const res = await loginUser(formData);
+    console.log("Login Response:", res);
 
     dispatch(AuthSuccess(res.user));
 
