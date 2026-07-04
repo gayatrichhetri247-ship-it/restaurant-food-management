@@ -7,8 +7,15 @@ import { AuthSuccess, LogoutSuccess } from "../redux/features/authSlice";
 const Navbar = () => {
   const dispatch = useDispatch();
   const { user, isAuthenticated } = useSelector((state) => state.auth);
+  
+  // 1. Grab the cart items from your Redux state
+  // Adjust 'state.cart.items' to match your actual Redux store structure if it differs
+  const cartItems = useSelector((state) => state.cart?.items || []);
+  
+  // Calculate total count. If items have quantities (e.g. 2 x Apples), use a reduce function:
+  // const cartCount = cartItems.reduce((total, item) => total + (item.quantity || 1), 0);
+  const cartCount = cartItems.length;
 
-  // Dynamic active link styling with hover transitions and subtle highlights
   const linkStyles = ({ isActive }) =>
     `px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 relative ${
       isActive
@@ -38,10 +45,9 @@ const Navbar = () => {
     fetchUser();
   }, [dispatch]);
 
-  // Extract initials if user name exists (e.g., "John Doe" -> "JD")
   const getUserInitials = () => {
-    if (!user?.name) return "U";
-    return user.name
+    if (!user?.fullname) return "U";
+    return user.fullname
       .split(" ")
       .map((n) => n[0])
       .join("")
@@ -51,7 +57,7 @@ const Navbar = () => {
 
   return (
     <nav className="sticky top-0 z-50 backdrop-blur-md bg-gray-950/80 border-b border-gray-800/60 px-6 py-3.5 flex items-center justify-between shadow-xl shadow-black/10">
-      {/* Brand Logo with a glowing effect gradient */}
+      {/* Brand Logo */}
       <div className="flex items-center gap-2 group cursor-pointer">
         <div className="h-8 w-8 rounded-lg bg-gradient-to-tr from-blue-600 to-indigo-500 flex items-center justify-center font-black text-white shadow-lg shadow-blue-500/20 group-hover:scale-105 transition-transform duration-300">
           M
@@ -102,17 +108,20 @@ const Navbar = () => {
                   d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"
                 />
               </svg>
-              {/* Optional: Item Count Badge (Static '3' for preview, swap with items.length if available) */}
-              <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-blue-600 text-[10px] font-bold text-white shadow-sm ring-2 ring-gray-950 animate-pulse">
-                3
-              </span>
+
+              {/* 2. Render badge conditionally only when cartCount is greater than 0 */}
+              {cartCount > 0 && (
+                <span className="absolute -top-0.5 -right-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-blue-600 px-1 text-[10px] font-bold text-white shadow-sm ring-2 ring-gray-950 transition-all duration-300">
+                  {cartCount}
+                </span>
+              )}
             </NavLink>
 
             {/* User Profile Info & Action */}
             <div className="flex items-center gap-3 pl-1 border-l border-gray-800/60">
               <div className="hidden sm:flex flex-col text-right">
                 <span className="text-xs text-gray-400 font-medium leading-none mb-0.5">Welcome back,</span>
-                <span className="text-sm text-gray-200 font-semibold leading-none">{user.name || "User"}</span>
+                <span className="text-sm text-gray-200 font-semibold leading-none">{user.fullname || "User"}</span>
               </div>
               <div className="h-8 w-8 rounded-full bg-gray-800 border border-gray-700 flex items-center justify-center text-xs font-bold text-blue-400 shadow-inner">
                 {getUserInitials()}
