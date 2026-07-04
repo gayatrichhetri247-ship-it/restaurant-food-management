@@ -18,6 +18,7 @@ import EditFood from "./admin/EditFood";
 import { useDispatch, useSelector } from "react-redux";
 import ProtectedAdmin from "./admin/ProtectedAdmin";
 import { useEffect } from "react";
+import { AuthSuccess } from "./redux/features/authSlice";
 
 const AppRoutes = () => {
   const { user, isAuthenticated } = useSelector((state) => state.auth);
