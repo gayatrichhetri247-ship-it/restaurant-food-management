@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { useLocation, useNavigate } from 'react-router'
 import { useDispatch } from 'react-redux'
+import { add } from '../../redux/features/cartSlice';
 // Assuming your action is located here; adjust the import path if necessary
-import { addToCart } from '../redux/features/cartSlice' 
 
 const MenuDetails = () => {
   const location = useLocation();
@@ -38,7 +38,7 @@ const MenuDetails = () => {
     };
     
     // Dispatch the action to Redux to increase your Navbar's badge count
-    dispatch(addToCart(cartItem));
+    dispatch(add(cartItem));
   };
 
   return (
