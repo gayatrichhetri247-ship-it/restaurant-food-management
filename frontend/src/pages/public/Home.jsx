@@ -6,11 +6,7 @@ const Home = () => {
 
   // Features Array for the interactive cards section
   const features = [
-    {
-      icon: "🌱",
-      title: "100% Organic",
-      desc: "Sourced daily from certified local sustainable farms right to your plate."
-    },
+   
     {
       icon: "👨‍🍳",
       title: "Master Chefs",
@@ -76,7 +72,7 @@ const Home = () => {
                 <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-orange-100 text-lg">🔥</span>
                 <div>
                   <p className="text-xs font-bold text-gray-400 uppercase tracking-wide">Popular Item</p>
-                  <p className="text-sm font-black text-gray-900">Spicy Avocado Salad</p>
+                  <p className="text-sm font-black text-gray-900">Special Spicy Momo</p>
                 </div>
               </div>
 
@@ -123,29 +119,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* METRIC BANNER SECTION */}
-      <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-        <div className="rounded-[2rem] bg-emerald-900 px-6 py-10 text-white shadow-xl sm:px-12 md:py-16">
-          <div className="grid grid-cols-2 gap-8 text-center md:grid-cols-4">
-            <div>
-              <p className="text-3xl font-black sm:text-4xl">12+</p>
-              <p className="mt-1 text-xs font-medium text-emerald-300 uppercase tracking-wider">Years of Cooking</p>
-            </div>
-            <div>
-              <p className="text-3xl font-black sm:text-4xl">50+</p>
-              <p className="mt-1 text-xs font-medium text-emerald-300 uppercase tracking-wider">Unique Dishes</p>
-            </div>
-            <div>
-              <p className="text-3xl font-black sm:text-4xl">15k+</p>
-              <p className="mt-1 text-xs font-medium text-emerald-300 uppercase tracking-wider">Happy Clients</p>
-            </div>
-            <div>
-              <p className="text-3xl font-black sm:text-4xl">100%</p>
-              <p className="mt-1 text-xs font-medium text-emerald-300 uppercase tracking-wider">Fresh Assurance</p>
-            </div>
-          </div>
-        </div>
-      </section>
+    
 
     </div>
   );
