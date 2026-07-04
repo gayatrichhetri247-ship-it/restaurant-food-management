@@ -111,10 +111,12 @@ export default function About() {
               {/* Action Call */}
               <div className="mt-8 pt-6 border-t border-stone-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <p className="text-xs text-stone-400">Founded in 2023 • Community Driven</p>
-                <button className="inline-flex items-center gap-2 px-6 py-3 bg-stone-900 text-white font-medium rounded-xl hover:bg-green-700 transition-colors group text-sm self-start sm:self-auto">
-                  Join Our Journey
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </button>
+                <Navigate to="/menu">
+                  <button className="inline-flex items-center gap-2 px-6 py-3 bg-stone-900 text-white font-medium rounded-xl hover:bg-green-700 transition-colors group text-sm self-start sm:self-auto">
+                    Join Our Journey
+                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  </button>
+                </Navigate>
               </div>
 
             </div>
