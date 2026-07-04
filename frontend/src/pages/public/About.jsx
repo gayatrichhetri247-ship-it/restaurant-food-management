@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Leaf, Heart, Recycle, ArrowRight } from 'lucide-react';
+import { Navigate } from 'react-router';
 
 export default function About() {
   const [activeTab, setActiveTab] = useState('sourcing');
