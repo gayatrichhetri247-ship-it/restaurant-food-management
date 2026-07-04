@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router';
+import About from './About';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -16,6 +17,11 @@ const Home = () => {
       icon: "⚡",
       title: "Fast Delivery",
       desc: "Hot, freshly packed gourmet meals delivered straight to your door step."
+    },
+    {
+      icon: "🥗",
+      title: "Fresh Ingredients",
+      desc: "We use carefully selected fresh ingredients every day to ensure authentic flavors and exceptional quality."
     }
   ];
 
@@ -118,6 +124,7 @@ const Home = () => {
           </div>
         </div>
       </section>
+      <About/>
 
     
 
