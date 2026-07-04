@@ -1,15 +1,15 @@
-import {useState} from "react";
+import { useState } from "react";
 import { signUpUser } from "../../api/auth.service";
-import {useNavigate, Link} from "react-router"
+import { useNavigate, Link } from "react-router";
 import { AuthSuccess } from "../../redux/features/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 const SignUp = () => {
   const navigate = useNavigate();
 
-  const user = useSelector((state)=>state.auth)
-  console.log(user)
-   const dispatch =useDispatch();
+  const user = useSelector((state) => state.auth);
+  console.log(user);
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     fullname: "",
     email: "",
@@ -23,18 +23,21 @@ const SignUp = () => {
     });
   };
 
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-   const res =  await signUpUser(formData)
-   dispatch(AuthSuccess(res.user));
-    console.log(res); 
-    navigate("/")
-
+    try {
+      const res = await signUpUser(formData);
+      dispatch(AuthSuccess(res.user));
+      console.log(res);
+      navigate("/");
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4 py-12 sm:px-6 lg:px-8">
-      <div className="w-full max-w-md space-y-8 rounded-2xl bg-white p-8 shadow-xl">
+    <div className="flex min-h-screen items-center justify-center bg-emerald-50/50 px-4 py-12 sm:px-6 lg:px-8">
+      <div className="w-full max-w-md space-y-8 rounded-2xl bg-white p-8 shadow-xl border border-green-100">
         {/* Header */}
         <div className="text-center">
           <h2 className="text-3xl font-bold tracking-tight text-gray-900">
@@ -42,7 +45,7 @@ const SignUp = () => {
           </h2>
           <p className="mt-2 text-sm text-gray-600">
             Already have an account?{" "}
-            <Link to="/login" className="font-medium text-indigo-600 hover:text-indigo-500 transition-colors">
+            <Link to="/login" className="font-medium text-emerald-600 hover:text-emerald-500 transition-colors">
               Sign in
             </Link>
           </p>
@@ -63,7 +66,7 @@ const SignUp = () => {
                 required
                 value={formData.fullname}
                 onChange={handleChange}
-                className="block w-full rounded-lg border border-gray-300 px-3 py-2.5 text-gray-900 placeholder-gray-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 sm:text-sm transition-all"
+                className="block w-full rounded-lg border border-gray-300 px-3 py-2.5 text-gray-900 placeholder-gray-400 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-green-300 sm:text-sm transition-all"
                 placeholder="John Doe"
               />
             </div>
@@ -81,7 +84,7 @@ const SignUp = () => {
                 required
                 value={formData.email}
                 onChange={handleChange}
-                className="block w-full rounded-lg border border-gray-300 px-3 py-2.5 text-gray-900 placeholder-gray-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 sm:text-sm transition-all"
+                className="block w-full rounded-lg border border-gray-300 px-3 py-2.5 text-gray-900 placeholder-gray-400 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-green-300 sm:text-sm transition-all"
                 placeholder="you@example.com"
               />
             </div>
@@ -99,7 +102,7 @@ const SignUp = () => {
                 required
                 value={formData.password}
                 onChange={handleChange}
-                className="block w-full rounded-lg border border-gray-300 px-3 py-2.5 text-gray-900 placeholder-gray-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 sm:text-sm transition-all"
+                className="block w-full rounded-lg border border-gray-300 px-3 py-2.5 text-gray-900 placeholder-gray-400 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-green-300 sm:text-sm transition-all"
                 placeholder="••••••••"
               />
             </div>
@@ -109,7 +112,7 @@ const SignUp = () => {
           <div>
             <button
               type="submit"
-              className="group relative flex w-full justify-center rounded-lg bg-indigo-600 px-4 py-3 text-sm font-semibold text-white hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 shadow-md hover:shadow-lg transition-all active:scale-[0.98]"
+              className="group relative flex w-full justify-center rounded-lg bg-emerald-600 px-4 py-3 text-sm font-semibold text-white hover:bg-emerald-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600 shadow-md hover:shadow-lg transition-all active:scale-[0.98]"
             >
               Sign Up
             </button>
