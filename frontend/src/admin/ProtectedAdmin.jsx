@@ -4,6 +4,9 @@ import { useSelector } from "react-redux";
 const ProtectedAdmin = () => {
   const { isAuthenticated, user } = useSelector((state) => state.auth);
 
+  console.log("isAuthenticated:", isAuthenticated);
+  console.log("user:", user);
+
   if (!isAuthenticated) {
     return <Navigate to="/login" replace />;
   }
