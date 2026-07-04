@@ -19,6 +19,7 @@ import { useDispatch, useSelector } from "react-redux";
 import ProtectedAdmin from "./admin/ProtectedAdmin";
 import { useEffect } from "react";
 import { AuthSuccess } from "./redux/features/authSlice";
+import { getUser } from "./api/auth.service";
 
 const AppRoutes = () => {
   const { user, isAuthenticated } = useSelector((state) => state.auth);
@@ -31,7 +32,7 @@ useEffect(() => {
       const data = await getUser();
       dispatch(AuthSuccess(data.user));
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
