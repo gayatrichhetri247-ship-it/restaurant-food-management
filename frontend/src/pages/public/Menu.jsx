@@ -1,19 +1,22 @@
 import { useQuery } from '@tanstack/react-query';
-import React from 'react';
+import React, { useState } from "react";
 import { getfoods } from '../../api/food.service';
 import { useNavigate } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import { add } from '../../redux/features/cartSlice';
 
 const Menu = () => {
+  const [page, setPage] = useState(1);
+8;
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart.cartItems);
-  console.log(cart);
+  const [page, setPage] = useState(1);
+  const limit = 8;
 
   const { data, isPending, isError, error } = useQuery({
-    queryKey: ["foods"],
-    queryFn: getfoods,
-  });
+  queryKey: ["foods", page],
+  queryFn: () => getfoods(page, limit),
+});
 
   const navigate = useNavigate();
 

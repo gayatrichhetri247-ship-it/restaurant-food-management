@@ -58,13 +58,13 @@ export const getFoods = async (req, res) => {
     const limit = Number(req.query.limit) || 8;
     const skip = (page - 1) * limit;
 
+    const totalFoods = await foodModel.countDocuments();
+
     const foods = await foodModel
       .find()
       .sort({ createdAt: -1 })
       .skip(skip)
       .limit(limit);
-
-    const totalFoods = await foodModel.countDocuments();
 
     res.status(200).json({
       success: true,
@@ -72,6 +72,8 @@ export const getFoods = async (req, res) => {
       currentPage: page,
       totalPages: Math.ceil(totalFoods / limit),
       totalFoods,
+      hasNextPage: page < Math.ceil(totalFoods / limit),
+      hasPreviousPage: page > 1,
     });
   } catch (error) {
     res.status(500).json({
