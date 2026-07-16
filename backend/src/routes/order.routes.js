@@ -6,6 +6,7 @@ import { createOrder, getOrderById, getOrders, success } from "../../controllers
 const orderRoutes = express.Router();
 
 orderRoutes.route("/create").post(varifyToken,createOrder);
+orderRoutes.patch("/:id", varifyToken, updateOrder);
 orderRoutes.route("/success").get(success);
 orderRoutes.route("/:id").get(getOrderById);
 orderRoutes.route("/").get(getOrders);

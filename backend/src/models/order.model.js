@@ -6,11 +6,11 @@ const orderSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },
-    foods: [
+    products: [
       {
-        foodId: {
+        productId: {
           type: mongoose.Schema.Types.ObjectId,
-          ref: "food",
+          ref: "product",
         },
         quantity: {
           type: Number,
@@ -26,9 +26,15 @@ const orderSchema = new mongoose.Schema(
             "AMBIGUOUS",
             "NOT_FOUND",
             "CANCELED",
-            "Service is currently unavailable"
+            "Service is currently unavailable",
           ],
-          default:"PENDING",
+          default: "PENDING",
+        },
+
+        orderStatus: {
+          type: String,
+          enum: ["PLACED", "PROCESSING", "SHIPPED", "DELIVERED", "CANCELLED"],
+          default: "PLACED",
         },
       },
     ],
