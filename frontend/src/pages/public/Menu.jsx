@@ -6,8 +6,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { add } from '../../redux/features/cartSlice';
 
 const Menu = () => {
-  const [page, setPage] = useState(1);
-8;
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart.cartItems);
   const [page, setPage] = useState(1);
