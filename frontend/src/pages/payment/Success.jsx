@@ -1,10 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
 import { useSearchParams } from "react-router";
-import { getOrder } from "../../api/order.service";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { clearCart } from "../../redux/features/cartSlice";
+import { getOrder } from "../../api/order.service";
+
 
 const Success = () => {
   const [searchParams] = useSearchParams();
