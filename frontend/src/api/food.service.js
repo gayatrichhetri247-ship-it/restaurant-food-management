@@ -10,13 +10,21 @@ export const addfood = async (data) => {
     throw error;
   }
 };
-export const getfoods = async () => {
+export const getfoods = async (page = 1, limit = 8) => {
   try {
-    const res = await api.get("/foods");
-    console.log("Get Foods Success:", res.data);
+    const res = await api.get("/foods", {
+      params: {
+        page,
+        limit,
+      },
+    });
+
     return res.data;
   } catch (error) {
-    console.error("Failed to fetch foods:", error.response?.data || error.message);
+    console.error(
+      "Failed to fetch foods:",
+      error.response?.data || error.message
+    );
     throw error;
   }
 };
