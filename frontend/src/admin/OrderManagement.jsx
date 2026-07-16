@@ -87,12 +87,12 @@ const OrderManagement = () => {
                   {/* Nested Food Items list */}
                   <td className="px-6 py-4 text-gray-700">
                     <div className="space-y-1.5">
-                      {order.products.map((item) => (
+                      {order.foods.map((item) => (
                         <div
-                          key={item.productId?._id}
+                          key={item.foodId?._id}
                           className="font-medium truncate max-w-xs"
                         >
-                          {item.productId?.name || "Deleted Item"}
+                          {item.foodId?.name || "Deleted Item"}
                         </div>
                       ))}
                     </div>
@@ -101,8 +101,8 @@ const OrderManagement = () => {
                   {/* Nested Quantities list */}
                   <td className="px-6 py-4 text-gray-600">
                     <div className="space-y-1.5">
-                      {order.products.map((item) => (
-                        <div key={item.productId?._id} className="tabular-nums">
+                      {order.foods.map((item) => (
+                        <div key={item.foodId?._id} className="tabular-nums">
                           {item.quantity}
                         </div>
                       ))}
