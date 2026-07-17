@@ -12,14 +12,16 @@ const FoodManagement = () => {
 
   // State for search/filter interaction
   const [searchTerm, setSearchTerm] = useState("");
+  const [page, setPage] = useState(1);
+const limit = 8;
 
   const cart = useSelector((state) => state.cart.cartItems);
   console.log(cart);
 
-  const { data, isPending, isError, error } = useQuery({
-    queryKey: ["foods"],
-    queryFn: getfoods,
-  });
+ const { data, isPending, isError, error } = useQuery({
+  queryKey: ["foods", page],
+  queryFn: () => getfoods(page, limit),
+});
   
   const foods = data?.foods || [];
 
@@ -251,6 +253,27 @@ const FoodManagement = () => {
                   })}
                 </tbody>
               </table>
+              <div className="flex items-center justify-center gap-4 mt-8">
+  <button
+    disabled={!data?.hasPreviousPage}
+    onClick={() => setPage((prev) => prev - 1)}
+    className="px-4 py-2 rounded bg-emerald-500 text-white disabled:bg-gray-300"
+  >
+    Previous
+  </button>
+
+  <span>
+    Page {data?.currentPage} of {data?.totalPages}
+  </span>
+
+  <button
+    disabled={!data?.hasNextPage}
+    onClick={() => setPage((prev) => prev + 1)}
+    className="px-4 py-2 rounded bg-emerald-500 text-white disabled:bg-gray-300"
+  >
+    Next
+  </button>
+</div>
             </div>
           </div>
         </>
