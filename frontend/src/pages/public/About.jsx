@@ -117,8 +117,8 @@ export default function About() {
                   Founded in 2023 • Community Driven
                 </p>
                 <Link to="/menu">
-                  <button className="inline-flex items-center gap-2 px-6 py-3 bg-stone-900 text-white font-medium rounded-xl hover:bg-green-700 transition-colors group text-sm self-start sm:self-auto">
-                    Join Our Journey
+                  <button className="inline-flex items-center gap-2 px-6 py-3 bg-green-600 text-white font-medium rounded-xl hover:bg-green-700 transition-colors group text-sm self-start sm:self-auto">
+                    Order Foods
                     <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                   </button>
                 </Link>

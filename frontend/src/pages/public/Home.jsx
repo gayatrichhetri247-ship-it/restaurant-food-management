@@ -52,12 +52,7 @@ const Home = () => {
                 Explore Full Menu
                 <span className="inline-block transition-transform duration-200 group-hover:translate-x-1">→</span>
               </button>
-              <button 
-                onClick={() => navigate('/sign-up')}
-                className="w-full sm:w-auto rounded-2xl border-2 cursor-pointer border-emerald-600/20 bg-white/60 backdrop-blur-sm px-8 py-4 font-bold text-emerald-800 transition-all duration-300 hover:bg-white hover:border-emerald-600 active:scale-95"
-              >
-                Join the Club
-              </button>
+             
             </div>
           </div>
 
