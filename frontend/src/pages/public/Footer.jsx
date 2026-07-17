@@ -99,6 +99,8 @@ Fresh ingredients, bold flavors, and meals crafted with passion. Every dish is p
               <h4 className="text-xs font-bold uppercase tracking-widest text-green-400 mb-4">Find Us</h4>
            
               <p className="text-xs  mt-1">Sukedhara, Kathmandu</p>
+              <p className="text-xs  mt-1">9769674509</p>
+              <p className="text-xs  mt-1">thefoodspot@gmail.com</p>
             </div>
             
            
