@@ -49,9 +49,9 @@ const UserManagement = () => {
   // Loading State
   if (isPending) {
     return (
-      <div className="flex min-h-[400px] flex-col items-center justify-center gap-4">
+      <div className="flex min-h-[400px] flex-col items-center justify-center gap-4 px-4">
         <div className="h-12 w-12 animate-spin rounded-full border-4 border-emerald-500 border-t-transparent"></div>
-        <span className="text-lg font-medium text-gray-600">Loading registered users...</span>
+        <span className="text-center text-lg font-medium text-gray-600">Loading registered users...</span>
       </div>
     );
   }
@@ -59,7 +59,7 @@ const UserManagement = () => {
   // Error State
   if (isError) {
     return (
-      <div className="mx-auto my-8 max-w-md rounded-xl border border-red-200 bg-red-50 p-6 text-center text-red-700 shadow-sm">
+      <div className="mx-4 my-8 max-w-md rounded-xl border border-red-200 bg-red-50 p-6 text-center text-red-700 shadow-sm sm:mx-auto">
         <p className="font-semibold text-lg">Something went wrong.</p>
         <p className="text-sm text-red-500 mt-1 mb-4">Could not fetch the system user registry database.</p>
         <button 
@@ -77,7 +77,7 @@ const UserManagement = () => {
       {/* Header */}
       <div className="mb-8 flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight text-gray-900">User Management</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-gray-900">User Management</h1>
           <p className="mt-1 text-sm text-gray-500">
             Review system accounts, manage authorization levels, and view registration dates.
           </p>
@@ -88,9 +88,9 @@ const UserManagement = () => {
       </div>
 
       {/* Interactive Toolbar */}
-      <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+      <div className="mb-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         {/* Search Input */}
-        <div className="relative flex-1 max-w-md">
+        <div className="relative w-full md:max-w-md">
           <input
             type="text"
             placeholder="Search name or email..."
@@ -109,11 +109,11 @@ const UserManagement = () => {
         </div>
 
         {/* Filters and Sorting */}
-        <div className="flex flex-wrap items-center gap-3">
+        <div className="grid grid-cols-2 gap-3 sm:flex sm:items-center">
           <select
             value={roleFilter}
             onChange={(e) => setRoleFilter(e.target.value)}
-            className="rounded-xl border border-gray-200 bg-white px-3 py-2.5 text-sm font-medium text-gray-700 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 shadow-sm"
+            className="w-full sm:w-auto rounded-xl border border-gray-200 bg-white px-3 py-2.5 text-sm font-medium text-gray-700 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 shadow-sm"
           >
             <option value="all">All Roles</option>
             <option value="admin">Admins</option>
@@ -122,7 +122,7 @@ const UserManagement = () => {
 
           <button
             onClick={() => setSortOrder(prev => prev === "asc" ? "desc" : "asc")}
-            className="flex items-center gap-2 rounded-xl border border-gray-200 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 active:bg-gray-100 transition-colors shadow-sm"
+            className="flex w-full sm:w-auto items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 active:bg-gray-100 transition-colors shadow-sm"
           >
             <span>Name</span>
             <span className="text-xs font-bold text-emerald-600">
@@ -132,8 +132,64 @@ const UserManagement = () => {
         </div>
       </div>
 
-      {/* Responsive Table Wrapper */}
-      <div className="overflow-x-auto rounded-xl border border-gray-200 bg-white shadow-sm">
+      {/* 1. Mobile Cards Layout (Hidden on desktop, displayed on mobile) */}
+      <div className="space-y-4 sm:hidden">
+        {filteredUsers.length > 0 ? (
+          filteredUsers.map((user) => {
+            const isAdmin = user.role?.toLowerCase() === "admin";
+            return (
+              <div key={user._id} className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm space-y-3">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className={`w-9 h-9 rounded-full flex items-center justify-center font-bold text-sm shadow-inner ${
+                      isAdmin ? 'bg-emerald-600 text-white' : 'bg-emerald-100 text-emerald-800'
+                    }`}>
+                      {user.fullname ? user.fullname.charAt(0).toUpperCase() : 'U'}
+                    </div>
+                    <div>
+                      <div className="font-semibold text-gray-900">{user.fullname}</div>
+                      <div className="text-xs text-gray-500">{user.email}</div>
+                    </div>
+                  </div>
+                  <span className={`inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold uppercase tracking-wide border shadow-sm ${
+                    isAdmin ? "bg-emerald-50 text-emerald-700 border-emerald-200" : "bg-gray-50 text-gray-600 border-gray-200"
+                  }`}>
+                    {user.role || "user"}
+                  </span>
+                </div>
+
+                <div className="pt-2 border-t border-gray-100 flex justify-end">
+                  {deleteUserId === user._id ? (
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs text-red-500 mr-1">Confirm delete?</span>
+                      <button onClick={() => handleDelete(user._id)} className="text-xs bg-red-600 text-white px-3 py-1.5 rounded-lg hover:bg-red-700">
+                        Yes
+                      </button>
+                      <button onClick={() => setDeleteUserId(null)} className="text-xs bg-gray-100 text-gray-600 px-3 py-1.5 rounded-lg border border-gray-200">
+                        No
+                      </button>
+                    </div>
+                  ) : (
+                    <button
+                      onClick={() => setDeleteUserId(user._id)}
+                      className="text-xs font-medium text-red-600 bg-red-50 px-3 py-1.5 rounded-lg border border-red-100 active:bg-red-100 w-full text-center sm:w-auto"
+                    >
+                      Delete Account
+                    </button>
+                  )}
+                </div>
+              </div>
+            );
+          })
+        ) : (
+          <div className="text-center py-8 text-gray-400 font-medium bg-white rounded-xl border border-gray-200">
+            No users found matching your filters.
+          </div>
+        )}
+      </div>
+
+      {/* 2. Responsive Table Layout (Hidden on small mobile screens, block on sm and above) */}
+      <div className="hidden sm:block overflow-x-auto rounded-xl border border-gray-200 bg-white shadow-sm">
         <table className="min-w-full divide-y divide-gray-200 text-left text-sm">
           <thead className="bg-gray-50 text-xs font-semibold uppercase tracking-wider text-gray-500">
             <tr>
@@ -150,7 +206,6 @@ const UserManagement = () => {
 
                 return (
                   <tr key={user._id} className="hover:bg-emerald-50/20 transition-colors group">
-                    {/* Fullname + Initial Avatar */}
                     <td className="whitespace-nowrap px-6 py-4">
                       <div className="flex items-center gap-3">
                         <div className={`w-9 h-9 rounded-full flex items-center justify-center font-bold text-sm shadow-inner transition-transform group-hover:scale-105 ${
@@ -164,12 +219,10 @@ const UserManagement = () => {
                       </div>
                     </td>
 
-                    {/* Email */}
                     <td className="whitespace-nowrap px-6 py-4 text-gray-600">
                       {user.email}
                     </td>
 
-                    {/* Dynamic Role Badge */}
                     <td className="whitespace-nowrap px-6 py-4">
                       <span
                         className={`inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold uppercase tracking-wide border shadow-sm ${
@@ -182,7 +235,6 @@ const UserManagement = () => {
                       </span>
                     </td>
 
-                    {/* Contextual Actions column */}
                     <td className="whitespace-nowrap px-6 py-4 text-right text-sm font-medium">
                       {deleteUserId === user._id ? (
                         <div className="flex items-center justify-end gap-2 animate-fadeIn">

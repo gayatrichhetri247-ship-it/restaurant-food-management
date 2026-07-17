@@ -32,39 +32,76 @@ const OrderManagement = () => {
   }
 
   return (
-    <div className="w-full">
+    <div className="w-full px-4 sm:px-0">
       {/* Header */}
       <div className="mb-8">
         <h1 className="text-2xl font-bold tracking-tight text-gray-900">
           Order Management
         </h1>
         <p className="mt-1 text-sm text-gray-500">
-          Track customer purchases, fulfillment status, and order timeline
-          details.
+          Track customer purchases, fulfillment status, and order timeline details.
         </p>
       </div>
 
-      {/* Responsive Table Wrapper */}
-      <div className="overflow-x-auto rounded-xl border border-gray-200 bg-white shadow-sm">
+      {/* 1. Mobile View: Stacked Cards (Hidden on md screens and up) */}
+      <div className="space-y-4 md:hidden">
+        {data?.orders?.map((order) => {
+          const isComplete = order.foods[0]?.paymentStatus === "COMPLETE";
+          return (
+            <div 
+              key={order._id} 
+              className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm"
+            >
+              <div className="flex items-center justify-between border-b border-gray-100 pb-3">
+                <div>
+                  <h3 className="font-semibold text-gray-900">
+                    {order.userId?.fullname || "Guest User"}
+                  </h3>
+                  <p className="text-xs text-gray-500 mt-0.5">
+                    {order.userId?.email || "No Email"}
+                  </p>
+                </div>
+                <span
+                  className={`inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold ${
+                    isComplete
+                      ? "bg-green-50 text-green-700 border border-green-200"
+                      : "bg-amber-50 text-amber-700 border border-amber-200"
+                  }`}
+                >
+                  {order.foods[0]?.paymentStatus || "Pending"}
+                </span>
+              </div>
+
+              <div className="mt-4 space-y-2">
+                <p className="text-xs font-semibold uppercase tracking-wider text-gray-400">
+                  Items Ordered
+                </p>
+                {order.foods.map((item) => (
+                  <div key={item.foodId?._id} className="flex justify-between text-sm text-gray-700">
+                    <span className="font-medium truncate max-w-[200px]">
+                      {item.foodId?.name || "Deleted Item"}
+                    </span>
+                    <span className="text-gray-500 font-mono">
+                      qty: {item.quantity}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* 2. Desktop/Tablet View: Traditional Table (Hidden on small screens) */}
+      <div className="hidden md:block overflow-x-auto rounded-xl border border-gray-200 bg-white shadow-sm">
         <table className="min-w-full divide-y divide-gray-200 text-left text-sm">
           <thead className="bg-gray-50 text-xs font-semibold uppercase tracking-wider text-gray-500">
             <tr>
-              <th scope="col" className="px-6 py-4">
-                Customer
-              </th>
-              <th scope="col" className="px-6 py-4">
-                Email
-              </th>
-              <th scope="col" className="px-6 py-4">
-                Ordered Items
-              </th>
-              <th scope="col" className="px-6 py-4">
-                Qty
-              </th>
-              <th scope="col" className="px-6 py-4">
-                Payment Status
-              </th>
-              
+              <th scope="col" className="px-6 py-4">Customer</th>
+              <th scope="col" className="px-6 py-4">Email</th>
+              <th scope="col" className="px-6 py-4">Ordered Items</th>
+              <th scope="col" className="px-6 py-4">Qty</th>
+              <th scope="col" className="px-6 py-4">Payment Status</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200 bg-white">
@@ -74,17 +111,12 @@ const OrderManagement = () => {
                   key={order._id}
                   className="hover:bg-gray-50/70 transition-colors align-top"
                 >
-                  {/* User Fullname */}
                   <td className="whitespace-nowrap px-6 py-4 font-semibold text-gray-900">
                     {order.userId?.fullname || "Guest User"}
                   </td>
-
-                  {/* Email */}
                   <td className="whitespace-nowrap px-6 py-4 text-gray-600">
                     {order.userId?.email || "N/A"}
                   </td>
-
-                  {/* Nested Food Items list */}
                   <td className="px-6 py-4 text-gray-700">
                     <div className="space-y-1.5">
                       {order.foods.map((item) => (
@@ -97,8 +129,6 @@ const OrderManagement = () => {
                       ))}
                     </div>
                   </td>
-
-                  {/* Nested Quantities list */}
                   <td className="px-6 py-4 text-gray-600">
                     <div className="space-y-1.5">
                       {order.foods.map((item) => (
@@ -108,8 +138,6 @@ const OrderManagement = () => {
                       ))}
                     </div>
                   </td>
-
-                  {/* Status Badges */}
                   <td className="whitespace-nowrap px-6 py-4">
                     <span
                       className={`inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold ${
@@ -121,9 +149,6 @@ const OrderManagement = () => {
                       {order.foods[0]?.paymentStatus || "Pending"}
                     </span>
                   </td>
-
-                  {/* Formatted Order Date */}
-                  
                 </tr>
               );
             })}

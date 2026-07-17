@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { addfood } from "../api/food.service";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router";
@@ -8,12 +8,19 @@ const AddFood = () => {
     name: "",
     price: "",
     description: "",
-    photo: null, // Changed from empty string to null for file storage
+    photo: null, 
   });
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
-  const [previewUrl, setPreviewUrl] = useState(""); // Tracks the local preview blob URL
+  const [previewUrl, setPreviewUrl] = useState(""); 
+
+  // Clean up memory leaks when the component unmounts or preview changes
+  useEffect(() => {
+    return () => {
+      if (previewUrl) URL.revokeObjectURL(previewUrl);
+    };
+  }, [previewUrl]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -30,56 +37,59 @@ const AddFood = () => {
         ...prev,
         photo: file,
       }));
-      // Generate a temporary local URL for immediate previewing
+      // Revoke old URL before creating a new one to prevent memory leaks
+      if (previewUrl) URL.revokeObjectURL(previewUrl);
       setPreviewUrl(URL.createObjectURL(file));
     }
   };
 
-   const addMutation = useMutation({
-    mutationFn:(data)=>{
-       return addfood(data);
+  const addMutation = useMutation({
+    mutationFn: (data) => {
+      return addfood(data);
     },
-    onSuccess:()=>{
-        queryClient.invalidateQueries({queryKey:["foods"]});
-        navigate("/admin/food-management");
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["foods"] });
+      navigate("/admin/food-management");
     },
-    onError:(err)=>{
-        console.log(err)
+    onError: (err) => {
+      console.log(err);
     }
+  });
 
-  })
-
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // CRITICAL: When uploading files, you must use FormData instead of raw JSON
     const data = new FormData();
     data.append("name", formData.name);
     data.append("price", formData.price);
     data.append("description", formData.description);
-    data.append("photo", formData.photo); // Appends the binary file directly
-
+    data.append("photo", formData.photo); 
 
     addMutation.mutate(data);
-  
   };
 
   const handleClear = () => {
     setFormData({ name: "", price: "", description: "", photo: null });
+    if (previewUrl) URL.revokeObjectURL(previewUrl);
     setPreviewUrl("");
   };
 
   return (
-    <div className="mx-auto max-w-2xl px-4 py-4">
-      <div className="mb-8 border-b border-gray-200 pb-4">
-        <h1 className="text-2xl font-bold tracking-tight text-gray-900">Add New Food Item</h1>
-        <p className="mt-1 text-sm text-gray-500">
+    // Responsive padding dynamically expands from mobile to desktop
+    <div className="mx-auto max-w-2xl px-4 py-6 sm:px-6 lg:px-8">
+      <div className="mb-6 border-b border-gray-200 pb-4 sm:mb-8">
+        <h1 className="text-xl font-bold tracking-tight text-gray-900 sm:text-2xl">
+          Add New Food Item
+        </h1>
+        <p className="mt-1 text-xs text-gray-500 sm:text-sm">
           Fill out the details and upload a photo to add this item to the database.
         </p>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+        {/* Adjusted grid layout to handle smaller screens flawlessly */}
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6">
+          
           {/* Food Name */}
           <div className="sm:col-span-2">
             <label htmlFor="name" className="block text-sm font-medium text-gray-700">
@@ -93,7 +103,7 @@ const AddFood = () => {
               value={formData.name}
               onChange={handleChange}
               placeholder="e.g., Spicy Crunchy Zinger Burger"
-              className="mt-1 block w-full rounded-lg border border-gray-300 px-4 py-2.5 text-gray-900 shadow-sm focus:border-orange-500 focus:ring-1 focus:ring-orange-500 focus:outline-none sm:text-sm"
+              className="mt-1 block w-full rounded-lg border border-gray-300 px-4 py-2.5 text-gray-900 shadow-sm focus:border-orange-500 focus:ring-1 focus:ring-orange-500 focus:outline-none text-sm"
             />
           </div>
 
@@ -115,7 +125,7 @@ const AddFood = () => {
                 value={formData.price}
                 onChange={handleChange}
                 placeholder="0.00"
-                className="block w-full rounded-lg border border-gray-300 py-2.5 pl-10 pr-4 text-gray-900 focus:border-orange-500 focus:ring-1 focus:ring-orange-500 focus:outline-none sm:text-sm"
+                className="block w-full rounded-lg border border-gray-300 py-2.5 pl-10 pr-4 text-gray-900 focus:border-orange-500 focus:ring-1 focus:ring-orange-500 focus:outline-none text-sm"
               />
             </div>
           </div>
@@ -133,7 +143,7 @@ const AddFood = () => {
               value={formData.description}
               onChange={handleChange}
               placeholder="Detail the ingredients, allergen tags, portions..."
-              className="mt-1 block w-full rounded-lg border border-gray-300 px-4 py-2.5 text-gray-900 shadow-sm focus:border-orange-500 focus:ring-1 focus:ring-orange-500 focus:outline-none sm:text-sm"
+              className="mt-1 block w-full rounded-lg border border-gray-300 px-4 py-2.5 text-gray-900 shadow-sm focus:border-orange-500 focus:ring-1 focus:ring-orange-500 focus:outline-none text-sm"
             />
           </div>
 
@@ -142,26 +152,26 @@ const AddFood = () => {
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Food Photo
             </label>
-            <div className="mt-1 flex justify-center rounded-lg border-2 border-dashed border-gray-300 px-6 py-6 hover:border-orange-500 transition-colors bg-white">
+            <div className="mt-1 flex justify-center rounded-lg border-2 border-dashed border-gray-300 px-4 py-6 hover:border-orange-500 transition-colors bg-white sm:px-6">
               <div className="space-y-1 text-center">
-                {/* SVG Icon */}
-                <svg className="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
+                <svg className="mx-auto h-10 w-10 text-gray-400 sm:h-12 sm:w-12" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
                   <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4-4m4-24h8m-4-4v8m-12 4h.02" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
-                <div className="flex text-sm text-gray-600 justify-center">
+                {/* Flex layout wraps on extra-small mobile devices */}
+                <div className="flex flex-wrap text-sm text-gray-600 justify-center gap-1">
                   <label htmlFor="file-upload" className="relative cursor-pointer rounded-md bg-white font-semibold text-orange-600 focus-within:outline-none hover:text-orange-500">
                     <span>Upload a file</span>
                     <input 
                       id="file-upload" 
                       name="photo" 
                       type="file" 
-                      accept="image/*" // Restricts picker to images only
+                      accept="image/*" 
                       required
-                      className="sr-only" // Hides native ugly button but keeps it accessible
+                      className="sr-only" 
                       onChange={handleFileChange} 
                     />
                   </label>
-                  <p className="pl-1">or drag and drop</p>
+                  <p className="text-gray-500">or drag and drop</p>
                 </div>
                 <p className="text-xs text-gray-500">PNG, JPG, GIF up to 5MB</p>
               </div>
@@ -175,7 +185,7 @@ const AddFood = () => {
             <span className="block text-xs font-semibold uppercase tracking-wider text-gray-500 mb-2">
               Selected File Preview
             </span>
-            <div className="relative aspect-video w-full max-w-sm overflow-hidden rounded-md border border-gray-200 bg-white">
+            <div className="relative aspect-video w-full max-w-xs overflow-hidden rounded-md border border-gray-200 bg-white sm:max-w-sm">
               <img
                 src={previewUrl}
                 alt="Upload preview"
@@ -187,19 +197,21 @@ const AddFood = () => {
         )}
 
         {/* Action Buttons */}
-        <div className="flex items-center justify-end space-x-3 border-t border-gray-200 pt-5">
+        {/* On mobile, stack them vertically to fit narrow screens; on desktop, align horizontally */}
+        <div className="flex flex-col-reverse gap-3 border-t border-gray-200 pt-5 sm:flex-row sm:items-center sm:justify-end sm:space-x-3 sm:gap-0">
           <button
             type="button"
-            className="rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 transition-colors"
+            className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 transition-colors sm:w-auto"
             onClick={handleClear}
           >
             Clear Form
           </button>
           <button
             type="submit"
-            className="rounded-lg bg-orange-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-orange-500 transition-colors"
+            disabled={addMutation.isPending}
+            className="w-full rounded-lg bg-orange-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-orange-500 transition-colors disabled:bg-orange-400 sm:w-auto"
           >
-            {addMutation.isPending?"Saving...":"Save Item"}
+            {addMutation.isPending ? "Saving..." : "Save Item"}
           </button>
         </div>
       </form>
