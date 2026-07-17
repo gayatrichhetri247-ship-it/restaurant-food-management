@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router';
 import About from './About';
 import Footer from './Footer';
-
+import food from '../../assets/home-food.jpg'
 const Home = () => {
   const navigate = useNavigate();
 
@@ -63,7 +63,7 @@ const Home = () => {
             
             <div className="relative overflow-hidden rounded-[2rem] sm:rounded-[2.5rem] border-4 border-white bg-green-200 shadow-2xl transition-transform duration-500 hover:scale-[1.02]">
               <img 
-                src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&q=80&w=800" 
+                src={food}
                 alt="Gourmet Salad Bowl" 
                 className="h-[280px] w-full object-cover sm:h-[380px] lg:h-[450px]"
               />
