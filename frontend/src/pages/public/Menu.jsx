@@ -11,7 +11,12 @@ const Menu = () => {
   const [page, setPage] = useState(1);
   const limit = 8;
 
-  const { data, isPending, isError, error } = useQuery({
+ const {
+  data,
+  isPending,
+  isError,
+  error,
+} = useQuery({
   queryKey: ["foods", page],
   queryFn: () => getfoods(page, limit),
 });
@@ -113,6 +118,27 @@ const Menu = () => {
           </div>
         ))}
       </div>
+     <div className="flex items-center justify-center gap-4 mt-10">
+  <button
+    className="px-4 py-2 rounded bg-emerald-500 text-white disabled:bg-gray-300"
+    disabled={!data?.hasPreviousPage}
+    onClick={() => setPage((prev) => prev - 1)}
+  >
+    Previous
+  </button>
+
+  <span className="font-semibold">
+    Page {data?.currentPage} of {data?.totalPages}
+  </span>
+
+  <button
+    className="px-4 py-2 rounded bg-emerald-500 text-white disabled:bg-gray-300"
+    disabled={!data?.hasNextPage}
+    onClick={() => setPage((prev) => prev + 1)}
+  >
+    Next
+  </button>
+</div>
     </div>
   );
 };

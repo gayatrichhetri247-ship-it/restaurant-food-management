@@ -103,7 +103,7 @@ const AddFood = () => {
               value={formData.name}
               onChange={handleChange}
               placeholder="e.g., Spicy Crunchy Zinger Burger"
-              className="mt-1 block w-full rounded-lg border border-gray-300 px-4 py-2.5 text-gray-900 shadow-sm focus:border-orange-500 focus:ring-1 focus:ring-orange-500 focus:outline-none text-sm"
+              className="mt-1 block w-full rounded-lg border border-gray-300 px-4 py-2.5 text-gray-900 shadow-sm focus:border-green-500 focus:ring-1 focus:ring-green-500 focus:outline-none text-sm"
             />
           </div>
 
@@ -125,7 +125,7 @@ const AddFood = () => {
                 value={formData.price}
                 onChange={handleChange}
                 placeholder="0.00"
-                className="block w-full rounded-lg border border-gray-300 py-2.5 pl-10 pr-4 text-gray-900 focus:border-orange-500 focus:ring-1 focus:ring-orange-500 focus:outline-none text-sm"
+                className="block w-full rounded-lg border border-gray-300 py-2.5 pl-10 pr-4 text-gray-900 focus:border-green-500 focus:ring-1 focus:ring-green-500 focus:outline-none text-sm"
               />
             </div>
           </div>
@@ -143,7 +143,7 @@ const AddFood = () => {
               value={formData.description}
               onChange={handleChange}
               placeholder="Detail the ingredients, allergen tags, portions..."
-              className="mt-1 block w-full rounded-lg border border-gray-300 px-4 py-2.5 text-gray-900 shadow-sm focus:border-orange-500 focus:ring-1 focus:ring-orange-500 focus:outline-none text-sm"
+              className="mt-1 block w-full rounded-lg border border-gray-300 px-4 py-2.5 text-gray-900 shadow-sm focus:border-green-500 focus:ring-1 focus:ring-green-500 focus:outline-none text-sm"
             />
           </div>
 
@@ -152,14 +152,14 @@ const AddFood = () => {
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Food Photo
             </label>
-            <div className="mt-1 flex justify-center rounded-lg border-2 border-dashed border-gray-300 px-4 py-6 hover:border-orange-500 transition-colors bg-white sm:px-6">
+            <div className="mt-1 flex justify-center rounded-lg border-2 border-dashed border-gray-300 px-4 py-6 hover:border-green-500 transition-colors bg-white sm:px-6">
               <div className="space-y-1 text-center">
                 <svg className="mx-auto h-10 w-10 text-gray-400 sm:h-12 sm:w-12" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
                   <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4-4m4-24h8m-4-4v8m-12 4h.02" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
                 {/* Flex layout wraps on extra-small mobile devices */}
                 <div className="flex flex-wrap text-sm text-gray-600 justify-center gap-1">
-                  <label htmlFor="file-upload" className="relative cursor-pointer rounded-md bg-white font-semibold text-orange-600 focus-within:outline-none hover:text-orange-500">
+                  <label htmlFor="file-upload" className="relative cursor-pointer rounded-md bg-white font-semibold text-green-600 focus-within:outline-none hover:text-green-500">
                     <span>Upload a file</span>
                     <input 
                       id="file-upload" 
@@ -209,7 +209,7 @@ const AddFood = () => {
           <button
             type="submit"
             disabled={addMutation.isPending}
-            className="w-full rounded-lg bg-orange-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-orange-500 transition-colors disabled:bg-orange-400 sm:w-auto"
+            className="w-full rounded-lg bg-green-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-green-500 transition-colors disabled:bg-green-400 sm:w-auto"
           >
             {addMutation.isPending ? "Saving..." : "Save Item"}
           </button>
