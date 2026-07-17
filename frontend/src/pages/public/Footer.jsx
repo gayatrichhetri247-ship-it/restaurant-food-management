@@ -2,69 +2,80 @@ import React from 'react';
 
 export default function Footer() {
   return (
-    <footer className="relative bg-emerald-950 text-emerald-100 font-sans mt-24">
-      {/* Floating Call-to-Action Card */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[calc(100%-2rem)] max-w-4xl bg-gradient-to-r from-emerald-400 to-teal-500 rounded-2xl p-6 md:p-10 shadow-xl shadow-emerald-950/40 flex flex-col md:flex-row items-center justify-between gap-6">
-        <div className="text-center md:text-left">
-          <h3 className="text-xl md:text-2xl font-bold text-emerald-950">Late night cravings?</h3>
-          <p className="text-emerald-900/80 text-sm md:text-base font-medium mt-1">Get 15% off your first midnight order straight to your inbox.</p>
-        </div>
-        <div className="w-full md:w-auto flex items-center bg-white/20 backdrop-blur-md rounded-xl p-1 border border-white/30 focus-within:ring-2 focus-within:ring-emerald-950 transition-all">
-          <input 
-            type="email" 
-            placeholder="Enter your email" 
-            className="bg-transparent text-emerald-950 placeholder-emerald-900/60 font-medium px-4 py-2 w-full md:w-64 outline-none text-sm"
-          />
-          <button className="bg-emerald-950 text-emerald-300 hover:text-white px-5 py-2 rounded-lg text-sm font-bold tracking-wide shadow-md transition-all active:scale-95 whitespace-nowrap">
-            Join Club
-          </button>
+    <footer className="bg-stone-950 text-stone-200 font-sans mt-20 border-t border-amber-500/10">
+      {/* Top Value Bar / Newsletter Section */}
+      <div className="border-b border-stone-800">
+        <div className="max-w-7xl mx-auto px-6 py-12 flex flex-col lg:flex-row items-center justify-between gap-8">
+          <div className="max-w-xl text-center lg:text-left">
+            <div className="inline-flex items-center gap-2 bg-amber-500/10 text-amber-400 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider mb-3">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+              Accepting Orders Live
+            </div>
+            <h3 className="text-2xl md:text-3xl font-serif font-bold text-white tracking-tight">
+              Freshly baked, straight to your doorstep.
+            </h3>
+            <p className="text-stone-400 text-sm mt-2">
+              Join our tasting club for secret menu drops, weekend pop-ups, and 10% off your next feast.
+            </p>
+          </div>
+          
+          <form onSubmit={(e) => e.preventDefault()} className="w-full lg:w-auto flex flex-col sm:flex-row gap-3">
+            <input 
+              type="email" 
+              placeholder="Your email address" 
+              className="bg-stone-900 border border-stone-800 focus:border-amber-500/50 text-white placeholder-stone-500 rounded-xl px-4 py-3 text-sm outline-none min-w-[280px] transition-all"
+              required
+            />
+            <button className="bg-amber-500 hover:bg-amber-400 text-stone-950 font-bold text-sm px-6 py-3 rounded-xl shadow-lg shadow-amber-500/10 transition-all active:scale-98 whitespace-nowrap">
+              Subscribe
+            </button>
+          </form>
         </div>
       </div>
 
-      {/* Main Footer Content */}
-      <div className="max-w-7xl mx-auto px-6 pt-36 pb-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8">
+      {/* Main Grid Content */}
+      <div className="max-w-7xl mx-auto px-6 pt-16 pb-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8">
           
-          {/* Brand Info */}
+          {/* Brand Intro */}
           <div className="space-y-4">
-            <div className="flex items-center gap-2">
-              <span className="text-2xl">🌱</span>
-              <h2 className="text-2xl font-black tracking-tight text-white">
-                The<span className="text-emerald-300">Food</span>Spot
-              </h2>
-            </div>
-            <p className="text-sm text-emerald-200/70 leading-relaxed max-w-sm">
-              We slice, dice, and spice with raw obsession. Locally sourced, obsessively crafted, and delivered with zero compromises.
+            <h2 className="text-2xl font-serif font-black tracking-tight text-white flex items-center gap-2">
+              Bite<span className="text-amber-400">Foods.</span>
+            </h2>
+            <p className="text-sm text-stone-400 leading-relaxed">
+Fresh ingredients, bold flavors, and meals crafted with passion. Every dish is prepared to satisfy your cravings from the very first bite.       
             </p>
-            <div className="flex gap-4 pt-2">
-              {['Instagram', 'TikTok', 'Yelp'].map((social) => (
+            {/* Social Icons */}
+            <div className="flex gap-3 pt-2">
+              {['instagram', 'twitter', 'facebook'].map((platform) => (
                 <a 
-                  key={social} 
-                  href={`#${social.toLowerCase()}`} 
-                  className="text-xs font-semibold tracking-wider uppercase text-emerald-300 hover:text-white border border-emerald-800/60 hover:border-emerald-300/40 rounded-full px-3 py-1.5 transition-all"
+                  key={platform} 
+                  href={`#${platform}`}
+                  className="w-9 h-9 flex items-center justify-center rounded-xl bg-stone-900 border border-stone-800 text-stone-400 hover:text-amber-400 hover:border-amber-500/30 transition-all"
+                  aria-label={platform}
                 >
-                  {social}
+                  <span className="text-xs capitalize">{platform[0]}</span>
                 </a>
               ))}
             </div>
           </div>
 
-          {/* Quick Menus */}
+          {/* Core Categories */}
           <div>
-            <h4 className="text-sm font-bold uppercase tracking-widest text-emerald-300 mb-5">Craving Box</h4>
-            <ul className="space-y-3 text-sm font-medium">
+            <h4 className="text-xs font-bold uppercase tracking-widest text-amber-400 mb-5">The Menu</h4>
+            <ul className="space-y-3.5 text-sm text-stone-400">
               {[
-                { name: 'Smash Burgers', tag: 'Hot' },
-                { name: 'Truffle Fries', tag: null },
-                { name: 'Vegan Bowls', tag: 'Fresh' },
-                { name: 'Craft Shakes', tag: null }
-              ].map((item) => (
-                <li key={item.name}>
-                  <a href={`#${item.name.toLowerCase().replace(' ', '-')}`} className="group flex items-center justify-between max-w-[200px] hover:text-white transition-colors">
-                    <span>{item.name}</span>
-                    {item.tag && (
-                      <span className="text-[10px] px-1.5 py-0.5 bg-emerald-300 text-emerald-950 font-bold uppercase rounded tracking-wide scale-90 group-hover:bg-white transition-colors">
-                        {item.tag}
+                { name: 'Momo', label: 'Daily' },
+                { name: 'Pizza', label: 'Popular' },
+                { name: 'Burger', label: null },
+                { name: 'Khana set', label: null }
+              ].map((link) => (
+                <li key={link.name}>
+                  <a href={`#${link.name.toLowerCase().replace(/ /g, '-')}`} className="hover:text-white transition-colors flex items-center justify-between group">
+                    <span>{link.name}</span>
+                    {link.label && (
+                      <span className="text-[9px] font-bold px-2 py-0.5 rounded bg-stone-900 text-stone-400 group-hover:text-amber-400 border border-stone-800 transition-colors">
+                        {link.label}
                       </span>
                     )}
                   </a>
@@ -73,53 +84,53 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Service Hours */}
+          {/* Operating Hours */}
           <div>
-            <h4 className="text-sm font-bold uppercase tracking-widest text-emerald-300 mb-5">The Kitchen Clock</h4>
-            <ul className="space-y-3 text-sm text-emerald-200/80 font-medium">
-              <li className="flex justify-between border-b border-emerald-900/40 pb-2">
-                <span>Weekdays</span>
-                <span className="text-white">11a — 10p</span>
-              </li>
-              <li className="flex justify-between border-b border-emerald-900/40 pb-2">
-                <span>Friday</span>
-                <span className="text-white">11a — Midnight</span>
-              </li>
-              <li className="flex justify-between border-b border-emerald-900/40 pb-2">
-                <span>Saturday</span>
-                <span className="text-emerald-300 font-bold">10a — 1a</span>
-              </li>
-              <li className="flex justify-between">
-                <span>Sunday Brunch</span>
-                <span className="text-white">10a — 9p</span>
-              </li>
-            </ul>
+            <h4 className="text-xs font-bold uppercase tracking-widest text-amber-400 mb-5">Kitchen Hours</h4>
+            <div className="space-y-3 text-sm text-stone-400">
+              <p className="flex justify-between">
+                <span>Mon — Thu</span>
+                <span className="text-stone-200">12:00 PM - 10:00 PM</span>
+              </p>
+              <p className="flex justify-between">
+                <span>Fri — Sat</span>
+                <span className="text-amber-400 font-medium">12:00 PM - 12:00 AM</span>
+              </p>
+              <p className="flex justify-between">
+                <span>Sunday</span>
+                <span className="text-stone-200">11:00 AM - 9:00 PM</span>
+              </p>
+            </div>
           </div>
 
-          {/* Contact / Delivery Button */}
-          <div className="flex flex-col justify-between space-y-4">
+          {/* Quick Contact & Action */}
+          <div className="flex flex-col justify-between space-y-6 lg:space-y-0">
             <div>
-              <h4 className="text-sm font-bold uppercase tracking-widest text-emerald-300 mb-4">Drop By</h4>
-              <p className="text-sm font-medium text-emerald-100">452 Botanical Way, Suite 10</p>
-              <p className="text-xs text-emerald-300/70 mt-1">Greenwich Village, NY</p>
+              <h4 className="text-xs font-bold uppercase tracking-widest text-amber-400 mb-4">Find Us</h4>
+           
+              <p className="text-xs text-stone-500 mt-1">Sukedhara, Kathmandu</p>
             </div>
+            
             <a 
-              href="#order" 
-              className="group relative inline-flex items-center justify-between bg-emerald-300 hover:bg-white text-emerald-950 text-sm font-bold py-3.5 px-5 rounded-xl transition-all duration-300 shadow-lg shadow-emerald-400/10 hover:shadow-white/5 active:scale-[0.98]"
+              href="#order"
+              className="inline-flex items-center justify-center gap-2 bg-stone-900 hover:bg-stone-800 text-amber-400 border border-amber-500/20 hover:border-amber-500/40 text-sm font-bold py-3.5 px-5 rounded-xl transition-all shadow-md active:scale-98"
             >
-              <span>DISPATCH A COURIER</span>
-              <span className="transform group-hover:translate-x-1 transition-transform font-mono">→</span>
+              <span>Secure Your Delivery Slot</span>
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
             </a>
           </div>
 
         </div>
 
-        {/* Sub-Footer Copyright */}
-        <div className="mt-16 pt-8 border-t border-emerald-900/60 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-emerald-300/40 font-medium">
-          <p>&copy; {new Date().getFullYear()} The Food Spot Corp. All plates reserved.</p>
-          <div className="flex gap-6">
-            <a href="#privacy" className="hover:text-emerald-300 transition-colors">Privacy Policy</a>
-            <a href="#terms" className="hover:text-emerald-300 transition-colors">Terms of Service</a>
+        {/* Sub-Footer Legal */}
+        <div className="mt-16 pt-8 border-t border-stone-900 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-stone-600">
+          <p>&copy; {new Date().getFullYear()} Bite Labs Inc. Handcrafted flavor, zero compromises.</p>
+          <div className="flex gap-6 font-medium">
+            <a href="#privacy" className="hover:text-stone-400 transition-colors">Privacy</a>
+            <a href="#terms" className="hover:text-stone-400 transition-colors">Terms</a>
+            <a href="#safety" className="hover:text-stone-400 transition-colors">Food Safety</a>
           </div>
         </div>
       </div>
