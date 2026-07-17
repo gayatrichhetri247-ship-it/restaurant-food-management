@@ -1,108 +1,78 @@
 import orderModel from "../src/models/order.model.js";
 
-// 1. Create Order
 export const createOrder = async (req, res) => {
-  try {
-    const userId = req.user._id;
-    const foods = req.body;
+  const userId = req.user._id;
+  const foods = req.body;
 
-    const order = await orderModel.create({
-      userId,
-      foods,
-    });
+  const order = await orderModel.create({
+    userId,
+    foods,
+  });
 
-    return res.status(201).json({
-      success: true,
-      message: "Order created successfully",
-      order,
-    });
-  } catch (error) {
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
-  }
+  res.status(201).json({
+    message: "order created",
+    order,
+  });
 };
 
-// 2. Payment Success Webhook/Redirect
 export const success = async (req, res) => {
   try {
     const encoded = req.query.data;
 
     if (!encoded) {
       return res.status(400).json({
-        success: false,
         message: "Payment data not received",
       });
     }
 
-    // Decode the base64 data safely
-    const decodedString = Buffer.from(encoded, "base64").toString("utf-8");
-    const decoded = JSON.parse(decodedString);
+    const decoded = JSON.parse(atob(encoded));
     const { transaction_uuid, status } = decoded;
 
-    console.log("Decoded Payment Data:", decoded);
+    console.log("Decoded:", decoded);
 
     const updatedOrder = await orderModel.findByIdAndUpdate(
-      transaction_uuid,
+      transaction_uuid, // ✅ Use the ID only
       {
         $set: {
           "foods.$[].paymentStatus": status,
-          // If paymentStatus is at the root level, uncomment below instead:
-          // paymentStatus: status 
         },
       },
-      { returnDocument: "after" }
+      {
+        returnDocument: "after",
+      },
     );
+
+    console.log("Updated Order:", updatedOrder);
 
     if (!updatedOrder) {
       return res.status(404).json({
-        success: false,
         message: "Order not found",
       });
     }
 
-    // Redirect user back to the frontend success page
-    return res.redirect(`${process.env.CORS_ORIGIN}/success?id=${transaction_uuid}`);
+   return res.redirect(
+  `${process.env.CORS_ORIGIN}/success?id=${transaction_uuid}`
+);
   } catch (error) {
-    console.error("Payment Success Error:", error);
+    console.error(error);
+
     return res.status(500).json({
-      success: false,
       message: error.message,
     });
   }
 };
-
-// 3. Get Single Order By ID
 export const getOrderById = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const order = await orderModel
-      .findById(id)
-      .populate("userId", "email fullname")
-      .populate("foods.foodId");
-
-    if (!order) {
-      return res.status(404).json({
-        success: false,
-        message: "Order not found",
-      });
-    }
-
-    return res.status(200).json({
-      success: true,
-      message: "Order fetched successfully",
-      order,
-    });
-  } catch (error) {
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
-  }
+  const id = req.params.id;
+  const order = await orderModel
+    .findById(id)
+    .populate("userId", "email fullname")
+    .populate("foods.foodId");
+  res.status(200).json({
+    message: "Order fetched",
+    success: true,
+    order,
+  });
 };
-
-// 4. Get All Orders
 export const getOrders = async (req, res) => {
   try {
     const orders = await orderModel
@@ -110,20 +80,18 @@ export const getOrders = async (req, res) => {
       .populate("userId", "fullname email")
       .populate("foods.foodId");
 
-    return res.status(200).json({
+    res.status(200).json({
       success: true,
       message: "Orders fetched successfully",
       orders,
     });
   } catch (error) {
-    return res.status(500).json({
+    res.status(500).json({
       success: false,
       message: error.message,
     });
   }
 };
-
-// 5. Update Order Fields manually
 export const updateOrder = async (req, res) => {
   try {
     const { id } = req.params;
@@ -138,16 +106,13 @@ export const updateOrder = async (req, res) => {
       });
     }
 
-    // Update every food object inside the array safely
-    order.foods = order.foods.map((food) => {
-      const foodObj = food.toObject ? food.toObject() : food;
-      return {
-        ...foodObj,
-        ...(paymentMethod && { paymentMethod }),
-        ...(paymentStatus && { paymentStatus }),
-        ...(orderStatus && { orderStatus }),
-      };
-    });
+    // Update every food in the order
+    order.foods = order.foods.map((food) => ({
+      ...food.toObject(),
+      paymentMethod,
+      paymentStatus,
+      orderStatus,
+    }));
 
     await order.save();
 
